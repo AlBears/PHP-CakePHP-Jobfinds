@@ -1,48 +1,24 @@
-<?php foreach ($jobs as $job) : ?>
-
-    <p><?php echo $job['title']; ?></p>
-<?php endforeach; ?>
 
 <h3>Latest Job Listings</h3>
 <ul id="listings">
-  <li>
-    <div class="type">
-      <span class="green">Full Time</span>
-    </div>
-    <div class="description">
-      <h5>Senior Graphic Designer (Burlington, MA)</h5>
-      Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt
-      ut laoreet dolore magna aliquam erat volutpat.<a href="details.html"> <i class="icon-plus"></i> Read More</a>
-    </div>
-  </li>
-  <li>
-    <div class="type">
-      <span class="green">Full Time</span>
-    </div>
-    <div class="description">
-      <h5> UX Designer (Newburyport, MA)</h5>
-      Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt
-      ut laoreet dolore magna aliquam erat volutpat.<a href="details.html"> <i class="icon-plus"></i> Read More</a>
-    </div>
-  </li>
-  <li>
-    <div class="type">
-      <span class="blue">Part Time</span>
-    </div>
-    <div class="description">
-      <h5>Registered Nurse (Brooklyn, NY)</h5>
-      Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt
-      ut laoreet dolore magna aliquam erat volutpat.<a href="details.html"> <i class="icon-plus"></i> Read More</a>
-    </div>
-  </li>
-  <li>
-    <div class="type">
-      <span class="green">Full Time</span>
-    </div>
-    <div class="description">
-      <h5>House Painter(Boston, MA)</h5>
-      Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt
-      ut laoreet dolore magna aliquam erat volutpat.<a href="details.html"> <i class="icon-plus"></i> Read More</a>
-    </div>
-  </li>
+  <?php foreach ($jobs as $job) : ?>
+    <li>
+      <div class="type">
+        <span style="background:<?php echo $job->type->color; ?>"><?php echo $job->type->name; ?></span>
+      </div>
+      <div class="description">
+        <h5><?php echo $job['title']; ?> (<?php echo $job['city']; ?>, <?php echo $job['state']; ?>)</h5>
+        <span id="list_date">
+  						<?php echo $this->Time->i18nformat(
+                $job['created'],
+                [\IntlDateFormatter::SHORT, \IntlDateFormatter::SHORT]
+              ); ?>
+  			</span>
+        <p>
+          <?php echo $this->Text->truncate($job['description'],250, array('ellipsis' => '...','exact' => false)); ?>
+					<?php echo $this->Html->link('Read More',array('controller' => 'jobs', 'action' => 'view', $job['id'])); ?>
+        </p>
+      </div>
+    </li>
+  <?php endforeach; ?>
 </ul>

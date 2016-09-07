@@ -2,6 +2,8 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\ORM\TableRegistry;
+use App\Model\Table;
 
 class JobsController extends AppController
 {
@@ -12,11 +14,9 @@ class JobsController extends AppController
   */
   public function index()
     {
-      $options = array(
-        'order' => array('Jobs.created'=> 'desc')
-      );
 
-      $jobs = $this->Jobs->find('all', $options);
+      $getJobs = TableRegistry::get('Jobs');
+      $jobs = $getJobs->find('all')->contain(['Types']);
       $this->set('jobs', $jobs);
     }
 }
