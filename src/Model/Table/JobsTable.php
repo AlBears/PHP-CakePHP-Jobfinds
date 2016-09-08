@@ -15,6 +15,10 @@ class JobsTable extends Table
          'foreignKey' => 'type_id',
          'joinType'=> 'INNER'
        ]);
+       $this->belongsTo('Categories', [
+         'foreignKey' => 'category_id',
+         'joinType'=> 'INNER'
+       ]);
   }
 
 }
