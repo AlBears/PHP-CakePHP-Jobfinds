@@ -1,7 +1,7 @@
 <div id="search_area" class="col_12 column">
-    <form class="horizontal" method="post" action="#">
-      <input id="keywords" type="text" placeholder="Enter Keywords..." />
-      <select id="state_select">
+    <form class="horizontal" method="post" action="<?php echo $this->request->webroot; ?>jobs/browse">
+      <input name="keywords" id="keywords" type="text" placeholder="Enter Keywords..." />
+      <select name="state" id="state_select">
         <option>Select State</option>
         <option value="AL">Alabama</option>
         <option value="AK">Alaska</option>
@@ -54,15 +54,11 @@
         <option value="WI">Wisconsin</option>
         <option value="WY">Wyoming</option>
       </select>
-      <select id="category_select">
+      <select id="category_select" name="category">
         <option>Select Category</option>
-        <option>Accounting & Banking</option>
-        <option>Construction</option>
-        <option>Fashion & Style</option>
-        <option>Food & Restaurant</option>
-        <option>Healthcare</option>
-        <option>Retail & Sales</option>
-        <option>Technology</option>
+        <?php foreach($categories as $category) : ?>
+						<option value="<?php echo $category['id']; ?>"><?php echo $category['name']; ?></option>
+				<?php endforeach; ?>
       </select>
       <button type="submit">Submit</button>
     </form>

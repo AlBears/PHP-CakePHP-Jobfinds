@@ -14,8 +14,18 @@ class JobsController extends AppController
   */
   public function index()
     {
+      //Set Category Query Options
+  		$options = array(
+  				'order' => array('Categories.name' => 'asc')
+  		);
+  		//Get Categories
+  		$categories = $this->Jobs->Categories->find('all', $options);
+  		//Set Categories
+  		$this->set('categories', $categories);
+
+
       $getJobs = TableRegistry::get('Jobs');
-      $jobs = $getJobs->find('all')->contain(['Types']);
+      $jobs = $getJobs->find('all')->contain(['Types'])->toArray();
       $this->set('jobs', $jobs);
     }
 
@@ -24,13 +34,35 @@ class JobsController extends AppController
     //Init Conditions Array
 		$conditions = array();
 
+    //Check Keyword Filter
+		if($this->request->is('post')){
+			if(!empty($this->request->data('keywords'))){
+				$conditions[] =  array('OR' => array(
+					'Jobs.title LIKE' => "%" . $this->request->data('keywords') . "%",
+					'Jobs.description LIKE' => "%" . $this->request->data('keywords') . "%"
+				));
+			}
+		}
+    //State Filter
+		if(!empty($this->request->data('state')) && $this->request->data('state') != 'Select State'){
+			//Match State
+			$conditions[] =  array(
+					'Jobs.state LIKE' => "%" . $this->request->data('state') . "%"
+			);
+		}
+    //Category Filter
+		if(!empty($this->request->data('category')) && $this->request->data('category') != 'Select Category'){
+			//Match Category
+			$conditions[] =  array(
+					'Jobs.category_id LIKE' => "" . $this->request->data('category') . ""
+			);
+		}
     //Set Category Query Options
 		$options = array(
 				'order' => array('Categories.name' => 'asc')
 		);
 		//Get Categories
 		$categories = $this->Jobs->Categories->find('all', $options);
-
 		//Set Categories
 		$this->set('categories', $categories);
 

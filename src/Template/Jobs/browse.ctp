@@ -1,3 +1,5 @@
+<?php echo $this->element('search'); ?>
+<br>
 
 <div id="category_block">
 	<ul>
@@ -11,6 +13,7 @@
 
 <h3>Latest Job Listings</h3>
   <?php if($jobs) : ?>
+
 <ul id="listings">
   <?php foreach ($jobs as $job) : ?>
     <li>

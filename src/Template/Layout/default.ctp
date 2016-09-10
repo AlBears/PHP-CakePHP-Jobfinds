@@ -42,7 +42,7 @@
 		</ul>
 	</div>
 
-	<?php echo $this->element('search'); ?>
+
 
 		<div class="col_12 column">
       <?php echo $this->Flash->render(); ?>
