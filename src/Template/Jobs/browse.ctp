@@ -1,3 +1,5 @@
+<?php $this->assign('title', 'JobFinds | Browse For A Job');?>
+
 <?php echo $this->element('search'); ?>
 <br>
 
