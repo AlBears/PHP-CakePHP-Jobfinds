@@ -108,6 +108,35 @@ class JobsController extends AppController
   		$this->set('job', $job);
 
    }
+   public function add()
+   {
+       //Get Categories for select list
+  		$options = array(
+  				'order' => array('Categories.name' => 'asc')
+  		);
+  		//Get Categories
+  		$categories = $this->Jobs->Categories->find('list', $options);
+  		//Set Categories
+  		$this->set('categories', $categories);
+
+  		//Get types for select list
+  		$types = $this->Jobs->Types->find('list');
+  		//Set Types
+  		$this->set('types', $types);
+
+      $job = $this->Jobs->newEntity();
+      if($this->request->is('post')){
+        $this->request->data['Jobs']['user_id'] = 1;
+        $job = $this->Jobs->patchEntity($job, $this->request->data);
+
+      if($this->Jobs->save($job)){
+         $this->Flash->set('Your job has been listed');
+         return $this->redirect(array('action' => 'index'));
+       }
+
+       $this->Flash->set('Unable to add your job');
+     }
+   }
 
 
 }
