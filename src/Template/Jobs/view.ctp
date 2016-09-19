@@ -8,3 +8,11 @@
 				<li><strong>Contact Email:</strong> <a href="<?php echo $job[0]['contact_email']; ?>?Subject=Job%20Applicant" target="_top">employer@somecompany.com</a></li>
 			</ul>
 			<p><a href="<?php echo $this->request->webroot; ?>jobs/browse">Back To Jobs</a></p>
+			<br><br>
+				<?php echo $this->Html->link(
+																'Edit',
+																array('action' => 'edit', $job[0]['id'])); ?> |
+				<?php echo $this->Form->postLink(
+																'Delete',
+																array('action' => 'delete', $job[0]['id']),
+																array('confirm' => 'Are you sure?')); ?>

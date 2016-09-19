@@ -99,6 +99,7 @@ class JobsController extends AppController
   		$options = array(
   				'conditions' => $conditions
   		);
+      $jobs = $getJobs->find('all')->contain(['Types'])->toArray();
       $job = $getJobs->find('all', $options)->contain(['Types'])->toArray();
 
   		if(!$job){
@@ -106,6 +107,7 @@ class JobsController extends AppController
   		}
 
   		$this->set('job', $job);
+      $this->set('jobs', $jobs);
 
    }
    public function add()
@@ -130,13 +132,65 @@ class JobsController extends AppController
         $job = $this->Jobs->patchEntity($job, $this->request->data);
 
       if($this->Jobs->save($job)){
-         $this->Flash->set('Your job has been listed');
+         $this->Flash->success('Your job has been listed');
          return $this->redirect(array('action' => 'index'));
        }
 
        $this->Flash->set('Unable to add your job');
      }
    }
+   /*
+	 * Edit Job
+	 */
+	 public function edit($id){
+		//Get Categories for select list
+  		$options = array(
+  				'order' => array('Categories.name' => 'asc')
+  		);
+  		//Get Categories
+  		$categories = $this->Jobs->Categories->find('list', $options);
+  		//Set Categories
+  		$this->set('categories', $categories);
+
+  		//Get types for select list
+  		$types = $this->Jobs->Types->find('list');
+  		//Set Types
+  		$this->set('types', $types);
+
+  		if(!$id){
+  			throw new NotFoundException(__('Invalid job listing'));
+  		}
+
+  		$job = $this->Jobs->get($id);
+
+  		if(!$job){
+  			throw new NotFoundException(__('Invalid job listing'));
+  		}
+
+  		if($this->request->is(array('job', 'put'))){
+  			$job = $this->Jobs->patchEntity($job, $this->request->data);
+
+
+  			if($this->Jobs->save($job)){
+  				$this->Flash->success(__('Your job has been updated'));
+  				return $this->redirect(array('action' => 'index'));
+  			}
+
+  			$this->Flash->error(__('Unable to update your job'));
+  		}
+      $this->set('job', $job);
+
+  	}
+    public function delete($id)
+    {
+      $this->request->allowMethod(['post', 'delete']);
+
+      $job = $this->Jobs->get($id);
+      if ($this->Jobs->delete($job)) {
+          $this->Flash->success(__('The job entry has been deleted'));
+          return $this->redirect(['action' => 'index']);
+      }
+      }
 
 
 }
