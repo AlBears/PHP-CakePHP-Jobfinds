@@ -23,9 +23,15 @@ class JobsController extends AppController
   		//Set Categories
   		$this->set('categories', $categories);
 
+      //Set Query Options
+		    $options = array(
+			'order' => array('Jobs.created' => 'DESC'),
+			'limit' => 10
+		    );
+
 
       $getJobs = TableRegistry::get('Jobs');
-      $jobs = $getJobs->find('all')->contain(['Types'])->toArray();
+      $jobs = $getJobs->find('all', $options)->contain(['Types'])->toArray();
       $this->set('jobs', $jobs);
     }
 
@@ -128,7 +134,7 @@ class JobsController extends AppController
 
       $job = $this->Jobs->newEntity();
       if($this->request->is('post')){
-        $this->request->data['Jobs']['user_id'] = 1;
+        $this->request->data['Jobs']['user_id'] = $this->Auth->user('id');
         $job = $this->Jobs->patchEntity($job, $this->request->data);
 
       if($this->Jobs->save($job)){

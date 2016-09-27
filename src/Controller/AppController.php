@@ -43,6 +43,17 @@ class AppController extends Controller
 
         $this->loadComponent('RequestHandler');
         $this->loadComponent('Flash');
+        $this->loadComponent('Auth', [
+          'loginRedirect' => array(
+            'controller' => 'jobs',
+            'action' => 'index'
+        ),
+        'logoutRedirect' => array(
+            'controller' => 'jobs',
+            'action' => 'index',
+            'home'
+        )
+        ]);
     }
 
     /**
@@ -53,10 +64,13 @@ class AppController extends Controller
      */
     public function beforeRender(Event $event)
     {
-        if (!array_key_exists('_serialize', $this->viewVars) &&
-            in_array($this->response->type(), ['application/json', 'application/xml'])
-        ) {
-            $this->set('_serialize', true);
-        }
+
+            $this->set('userData', $this->Auth->user());
+        
     }
+    public function beforeFilter(Event $event)
+   {
+       $this->Auth->allow(['index', 'browse', 'register']);
+   }
+
 }

@@ -22,10 +22,16 @@
 <body>
 <div id="container" class="grid">
 	<header>
-		<div class="col_6 column">
+		<div class="col_4 column">
 			<h1><a href="<?php echo $this->request->webroot; ?>"><strong>Job</strong>Finds</a></h1>
 		</div>
-		<div class="col_6 column right">
+    <div class="col_6 column right welcome">
+					<?php if($userData): ?>
+						<h6>Welcome</strong>, <?php echo $userData['username']; ?></h6>
+						<a href="<?php echo $this->request->webroot; ?>users/logout">Logout</a>
+					<?php endif; ?>
+				</div>
+		<div class="col_2 column right">
 			<form id="add_job_link" action="<?php echo $this->request->webroot; ?>jobs/add">
 				<button class="large green"><i class="icon-plus"></i>Add Job</button>
 			</form>

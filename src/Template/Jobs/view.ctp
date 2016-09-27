@@ -9,6 +9,8 @@
 			</ul>
 			<p><a href="<?php echo $this->request->webroot; ?>jobs/browse">Back To Jobs</a></p>
 			<br><br>
+			<?php if($userData['id'] == $job[0]['user_id']) : ?>	
+				<br><br>
 				<?php echo $this->Html->link(
 																'Edit',
 																array('action' => 'edit', $job[0]['id'])); ?> |
@@ -16,3 +18,4 @@
 																'Delete',
 																array('action' => 'delete', $job[0]['id']),
 																array('confirm' => 'Are you sure?')); ?>
+			<?php endif; ?>
